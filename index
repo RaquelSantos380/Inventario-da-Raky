@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Inventário Da Raky" />
+    <meta property="og:description" content="Confira nosso inventário completo de pets no Adopt Me!" />
+    <meta property="og:url" content="https://www.seusite.com" />
+    <meta property="og:image" content="Raky.jpg">
+    <meta name="theme-color" content="#ffccff" />
+    <title>Inventário Da Raky</title>
+    <link rel="icon" type="image/png" href="Raky.jpg">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Dancing+Script:wght@700&family=Oswald:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffccff, #ff99cc, #ff66b2);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #2e2e2e;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23f7c6d9" /></svg>');
+            opacity: 0.1;
+            z-index: -1;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            background-color: #ff66b2;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid #ff3f81;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+        }
+        .container {
+            padding: 100px 15px 15px;
+            max-width: 100%;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+        .profile-img {
+            display: block;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            border: 5px solid #FFD700;
+            transition: all 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: rotate(10deg) scale(1.1);
+        }
+        .nick-info {
+            background: linear-gradient(145deg, #ffccff, #ff99cc);
+            padding: 12px 15px;
+            border-radius: 20px;
+            margin: 15px auto;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            border: 2px dashed #ff3f81;
+            max-width: 90%;
+            font-size: 16px;
+        }
+        .nick-info span {
+            color: #ff0066;
+            font-size: 1.1em;
+        }
+        .welcome-text {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .welcome-text h1 {
+            color: #ff3f81;
+            margin-bottom: 5px;
+            font-size: 28px;
+        }
+        .welcome-text h2 {
+            color: #ff66b2;
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+        /* Slideshow mais destacado */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            height: 300px; /* Aumentado para ficar mais "gordo" */
+            margin: 25px auto;
+            overflow: hidden;
+            background-color: #fff7f9;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
+            border: 3px solid #ff99cc; /* Borda rosa */
+        }
+        .slides {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            margin: auto;
+            padding: 5px; /* Espaçamento interno */
+        }
+        .seta {
+            position: absolute;
+            top: 60%;
+            transform: translateY(-50%);
+            font-size: 40px; /* Setas maiores */
+            color: #ff3f81;
+            cursor: pointer;
+            user-select: none;
+            padding: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.2s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .seta:hover {
+            transform: translateY(-50%) scale(1.15);
+            background-color: white;
+        }
+        .seta-esquerda {
+            left: 15px;
+        }
+        .seta-direita {
+            right: 15px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: bold;
+            padding: 15px;
+        }
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .link-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background: linear-gradient(145deg, #ffb3d9, #ff99cc);
+            color: #fff;
+            border: none;
+            border-radius: 15px; /* Bordas mais arredondadas */
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); /* Sombra mais forte */
+            text-decoration: none;
+            min-height: 100px; /* Botões mais altos */
+            border: 2px solid white; /* Borda branca */
+        }
+        .link-button img {
+            width: 45px; /* Ícones maiores */
+            height: 45px;
+            border-radius: 50%;
+            background-color: #fff;
+            padding: 3px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
+            margin-bottom: 12px;
+        }
+        .link-button:hover {
+            background: linear-gradient(145deg, #ff99cc, #ff80b3);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        .vendedor-pets {
+            background: linear-gradient(145deg, #ff6b6b, #ff3f81);
+            color: white;
+            padding: 18px 30px; /* Mais padding */
+            border: none;
+            border-radius: 30px; /* Mais arredondado */
+            font-family: 'Oswald', sans-serif;
+            font-weight: bold;
+            font-size: 1.2em; /* Texto maior */
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            margin: 25px auto;
+            text-align: center;
+            box-shadow: 0 7px 20px rgba(255, 0, 102, 0.4); /* Sombra mais forte */
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid white; /* Borda branca */
+        }
+        .vendedor-pets:hover {
+            background: linear-gradient(145deg, #ff3f81, #ff0066);
+            transform: translateY(-5px) scale(1.03); /* Efeito mais pronunciado */
+            box-shadow: 0 12px 25px rgba(255, 0, 102, 0.5);
+        }
+        .valor-botao {
+            font-size: 22px; /* Texto maior */
+            font-weight: bold;
+            padding: 18px 35px; /* Mais padding */
+            background: linear-gradient(145deg, #f09bae, #e87b94);
+            color: white;
+            border-radius: 30px; /* Mais arredondado */
+            text-align: center;
+            margin: 25px auto;
+            display: block;
+            text-decoration: none;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
+            transition: all 0.3s ease;
+            border: 2px solid white; /* Borda branca */
+        }
+        .valor-botao:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            display: none;
+        }
+        .loading-text {
+            font-size: 24px;
+            color: #ff66b2;
+            font-weight: bold;
+        }
+        .ver-mais {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1rem; /* Texto maior */
+        }
+        .ver-mais a {
+            color: #ff3f81;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.7);
+        }
+        .ver-mais a:hover {
+            text-decoration: underline;
+            color: #ff0066;
+            background: rgba(255,255,255,0.9);
+        }
+
+        /* Estilos específicos para mobile */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 22px;
+                padding: 8px 0;
+            }
+            .container {
+                padding: 90px 10px 10px;
+                border-radius: 10px;
+                margin: 0 10px;
+            }
+            .profile-img {
+                width: 90px;
+                height: 90px;
+            }
+            .slideshow-container {
+                height: 250px;
+                margin: 15px auto;
+            }
+            .seta {
+                font-size: 30px;
+                padding: 10px;
+                width: 40px;
+                height: 40px;
+            }
+            .link-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .link-button {
+                min-height: 90px;
+                font-size: 0.95rem;
+                padding: 12px;
+            }
+            .link-button img {
+                width: 40px;
+                height: 40px;
+            }
+            .vendedor-pets {
+                font-size: 1.1rem;
+                padding: 15px 20px;
+                margin: 20px auto;
+            }
+            .valor-botao {
+                font-size: 20px;
+                padding: 15px 25px;
+                margin: 20px auto;
+            }
+            .welcome-text h1 {
+                font-size: 24px;
+            }
+            .nick-info {
+                font-size: 15px;
+                padding: 10px;
+            }
+        }
+
+        /* Estilos para telas muito pequenas */
+        @media (max-width: 400px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            .slideshow-container {
+                height: 220px;
+            }
+            .seta {
+                font-size: 25px;
+                padding: 8px;
+                width: 35px;
+                height: 35px;
+            }
+            .link-button {
+                min-height: 85px;
+                font-size: 0.9rem;
+            }
+            .vendedor-pets {
+                font-size: 1rem;
+            }
+            .valor-botao {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Inventário Da Raky</h1>
+    </div>
+
+    <div class="container">
+        <img src="Raky.jpg" alt="Foto de Perfil" class="profile-img">
+        
+        <div class="welcome-text">
+            <h2>Confira nossos pets disponíveis</h2>
+        </div>
+
+        <div class="nick-info">
+            Entre pelo join usando o nick: <span>RaquelSantos380_2</span>
+        </div>
+        </div>
+
+        <div class="slideshow-container" id="slideshow-container">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/1.jpg" alt="Slide 1">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/2.jpg" alt="Slide 2">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/3.jpg" alt="Slide 3">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/4.jpg" alt="Slide 4">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/5.jpg" alt="Slide 5">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/6.jpg" alt="Slide 6">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/7.jpg" alt="Slide 7">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/8.jpg" alt="Slide 8">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/9.jpg" alt="Slide 9">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/10.jpg" alt="Slide 10">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/11.jpg" alt="Slide 11">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/12.jpg" alt="Slide 12">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/13.jpg" alt="Slide 13">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/14.jpg" alt="Slide 14">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/15.jpg" alt="Slide 15">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/16.jpg" alt="Slide 16">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/17.jpg" alt="Slide 17">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/18.jpg" alt="Slide 18">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/19.jpg" alt="Slide 19">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/20.jpg" alt="Slide 20">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/21.jpg" alt="Slide 21">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/22.jpg" alt="Slide 22">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/23.jpg" alt="Slide 23">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/24.jpg" alt="Slide 24">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/25.jpg" alt="Slide 25">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/26.jpg" alt="Slide 26">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/27.jpg" alt="Slide 27">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/28.jpg" alt="Slide 28">
+s            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/29.jpg" alt="Slide 29">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/30.jpg" alt="Slide 30">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/31.jpg" alt="Slide 31">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/32.jpg" alt="Slide 32">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/33.jpg" alt="Slide 33">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/34.jpg" alt="Slide 34">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/35.jpg" alt="Slide 35">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/36.jpg" alt="Slide 36">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/37.jpg" alt="Slide 37">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/38.jpg" alt="Slide 38">
+        </div>
+
+        <span class="seta seta-esquerda" onclick="voltarSlide()">&#8249;</span>
+        <span class="seta seta-direita" onclick="proximoSlide()">&#8250;</span>
+
+        
+        <div class="footer" id="rodape">
+    </div>
+
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-text">Direcionando você à página...</div>
+    </div>
+
+    <script>
+        // Slideshow automático
+        let slideIndex = 0;
+        const slides = document.getElementsByClassName("slides");
+        
+        function mostrarSlide(index) {
+            // Esconde todos os slides
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            
+            // Mostra o slide atual
+            if(slides.length > 0) {
+                slides[index].style.display = "block";
+            }
+        }
+        
+        function proximoSlide() {
+            slideIndex = (slideIndex + 1) % slides.length;
+            mostrarSlide(slideIndex);
+        }
+        
+        function voltarSlide() {
+            slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+            mostrarSlide(slideIndex);
+        }
+        
+        // Inicia o slideshow
+        if(slides.length > 0) {
+            mostrarSlide(slideIndex);
+            setInterval(proximoSlide, 3000);
+        }
+        
+        // Função para mostrar o overlay de carregamento
+        function showLoading() {
+            const overlay = document.getElementById("loading-overlay");
+            if(overlay) {
+                overlay.style.display = "flex";
+                setTimeout(() => {
+                    overlay.style.display = "none";
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
