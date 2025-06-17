@@ -287,6 +287,27 @@
             background: rgba(255,255,255,0.9);
         }
 
+        /* Botão de pause */
+        .pause-btn {
+            display: block;
+            margin: 15px auto;
+            padding: 10px 20px;
+            background: linear-gradient(145deg, #ff3f81, #ff0066);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 2px solid white;
+        }
+        .pause-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
         /* Estilos específicos para mobile */
         @media (max-width: 600px) {
             .header h1 {
@@ -384,7 +405,7 @@
         </div>
 
         <div class="nick-info">
-            Entre pelo join usando o nick: <span>RaquelSantos380_2</span>
+            Entre pelo join usando o nick: <span>RaqueSantos380_2</span>
         </div>
         </div>
 
@@ -417,7 +438,7 @@
             <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/26.jpg" alt="Slide 26">
             <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/27.jpg" alt="Slide 27">
             <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/28.jpg" alt="Slide 28">
-s            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/29.jpg" alt="Slide 29">
+            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/29.jpg" alt="Slide 29">
             <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/30.jpg" alt="Slide 30">
             <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/31.jpg" alt="Slide 31">
             <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/32.jpg" alt="Slide 32">
@@ -432,6 +453,10 @@ s            <img class="slides" src="https://raw.githubusercontent.com/RaquelSa
         <span class="seta seta-esquerda" onclick="voltarSlide()">&#8249;</span>
         <span class="seta seta-direita" onclick="proximoSlide()">&#8250;</span>
 
+        <!-- Botão de pause/play -->
+        <button class="pause-btn" id="pauseBtn" onclick="togglePause()">
+            <i class="fas fa-pause"></i> Pausar Slideshow
+        </button>
         
         <div class="footer" id="rodape">
     </div>
@@ -444,6 +469,8 @@ s            <img class="slides" src="https://raw.githubusercontent.com/RaquelSa
         // Slideshow automático
         let slideIndex = 0;
         const slides = document.getElementsByClassName("slides");
+        let slideInterval;
+        let isPaused = false;
         
         function mostrarSlide(index) {
             // Esconde todos os slides
@@ -467,10 +494,37 @@ s            <img class="slides" src="https://raw.githubusercontent.com/RaquelSa
             mostrarSlide(slideIndex);
         }
         
+        function startSlideShow() {
+            if (!slideInterval) {
+                slideInterval = setInterval(proximoSlide, 3000);
+            }
+        }
+        
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+            slideInterval = null;
+        }
+        
+        function togglePause() {
+            const pauseBtn = document.getElementById("pauseBtn");
+            
+            if (isPaused) {
+                // Se estava pausado, despausa
+                startSlideShow();
+                pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar Slideshow';
+                isPaused = false;
+            } else {
+                // Se estava rodando, pausa
+                stopSlideShow();
+                pauseBtn.innerHTML = '<i class="fas fa-play"></i> Continuar Slideshow';
+                isPaused = true;
+            }
+        }
+        
         // Inicia o slideshow
         if(slides.length > 0) {
             mostrarSlide(slideIndex);
-            setInterval(proximoSlide, 3000);
+            startSlideShow();
         }
         
         // Função para mostrar o overlay de carregamento
