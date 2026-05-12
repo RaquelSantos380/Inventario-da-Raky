@@ -108,7 +108,6 @@
             margin-top: 0;
             font-size: 1.1em;
         }
-        /* Slideshow ajustado */
         .slideshow-container {
             position: relative;
             max-width: 100%;
@@ -286,8 +285,6 @@
             color: #ff0066;
             background: rgba(255,255,255,0.9);
         }
-
-        /* Botão de pause */
         .pause-btn {
             display: block;
             margin: 10px auto;
@@ -308,8 +305,6 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
-
-        /* Estilos para telas muito pequenas */
         @media (max-width: 400px) {
             .header h1 {
                 font-size: 18px;
@@ -337,8 +332,6 @@
                 font-size: 12px;
             }
         }
-        
-        /* Estilo específico para o PIX */
         .pix-info {
             background: linear-gradient(145deg, #e6f7ff, #b3e0ff);
             color: #0066cc;
@@ -351,6 +344,13 @@
             border: 2px dashed #0066cc;
             max-width: 90%;
             font-size: 13px;
+        }
+        .contador-slides {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #ff3f81;
+            font-weight: bold;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -374,71 +374,17 @@
             Entre pelo join usando o nick: <span>RaqueSantos380_2</span>
         </div>
 
+        <!-- Slideshow Container - Imagens geradas dinamicamente -->
         <div class="slideshow-container" id="slideshow-container">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/1.jpg" alt="Slide 1">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/2.jpg" alt="Slide 2">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/3.jpg" alt="Slide 3">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/4.jpg" alt="Slide 4">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/5.jpg" alt="Slide 5">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/6.jpg" alt="Slide 6">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/7.jpg" alt="Slide 7">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/8.jpg" alt="Slide 8">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/9.jpg" alt="Slide 9">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/10.jpg" alt="Slide 10">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/11.jpg" alt="Slide 11">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/12.jpg" alt="Slide 12">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/13.jpg" alt="Slide 13">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/14.jpg" alt="Slide 14">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/15.jpg" alt="Slide 15">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/16.jpg" alt="Slide 16">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/17.jpg" alt="Slide 17">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/18.jpg" alt="Slide 18">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/19.jpg" alt="Slide 19">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/20.jpg" alt="Slide 20">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/21.jpg" alt="Slide 21">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/22.jpg" alt="Slide 22">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/23.jpg" alt="Slide 23">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/24.jpg" alt="Slide 24">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/25.jpg" alt="Slide 25">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/26.jpg" alt="Slide 26">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/27.jpg" alt="Slide 27">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/28.jpg" alt="Slide 28">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/29.jpg" alt="Slide 29">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/30.jpg" alt="Slide 30">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/31.jpg" alt="Slide 31">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/32.jpg" alt="Slide 32">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/33.jpg" alt="Slide 33">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/34.jpg" alt="Slide 34">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/35.jpg" alt="Slide 35">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/36.jpg" alt="Slide 36">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/37.jpg" alt="Slide 37">
-            <img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/38.jpg" alt="Slide 38">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/39.jpg" alt="Slide 39">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/40.jpg" alt="Slide 40">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/41.jpg" alt="Slide 41">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/42.jpg" alt="Slide 42">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/43.jpg" alt="Slide 43">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/44.jpg" alt="Slide 44">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/45.jpg" alt="Slide 45">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/46.jpg" alt="Slide 46">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/47.jpg" alt="Slide 47">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/48.jpg" alt="Slide 48">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/49.jpg" alt="Slide 49">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/50.jpg" alt="Slide 50">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/51.jpg" alt="Slide 51">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/52.jpg" alt="Slide 52">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/53.jpg" alt="Slide 53">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/54.jpg" alt="Slide 54">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/55.jpg" alt="Slide 55">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/56.jpg" alt="Slide 56">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/57.jpg" alt="Slide 57">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/58.jpg" alt="Slide 58">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/59.jpg" alt="Slide 59">
-<img class="slides" src="https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/60.jpg" alt="Slide 60">
+            <!-- As imagens serão inseridas aqui pelo JavaScript -->
         </div>
 
+        <!-- Setas de navegação -->
         <span class="seta seta-esquerda" onclick="voltarSlide()">&#8249;</span>
         <span class="seta seta-direita" onclick="proximoSlide()">&#8250;</span>
+
+        <!-- Contador de slides -->
+        <div class="contador-slides" id="contador-slides"></div>
 
         <!-- Botão de pause/play -->
         <button class="pause-btn" id="pauseBtn" onclick="togglePause()">
@@ -446,6 +392,7 @@
         </button>
         
         <div class="footer" id="rodape">
+        </div>
     </div>
 
     <div class="loading-overlay" id="loading-overlay">
@@ -453,32 +400,107 @@
     </div>
 
     <script>
-        // Slideshow automático
+        // ============================================
+        // CONFIGURAÇÃO: Altere este número conforme a
+        // quantidade de imagens JPG na sua pasta
+        // ============================================
+        const TOTAL_IMAGENS = 63; // <-- MUDE AQUI para o número total de JPGs
+        
+        const BASE_URL = "https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/";
+        const container = document.getElementById("slideshow-container");
+        
+        // Array para armazenar apenas as imagens que existem
+        let imagensExistentes = [];
         let slideIndex = 0;
-        const slides = document.getElementsByClassName("slides");
         let slideInterval;
         let isPaused = false;
         
+        // Função para verificar se uma imagem existe
+        function verificarImagem(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            });
+        }
+        
+        // Função para carregar todas as imagens
+        async function carregarImagens() {
+            container.innerHTML = '<div style="text-align:center;padding:50px;color:#ff66b2;">Carregando imagens... <i class="fas fa-spinner fa-spin"></i></div>';
+            
+            const promessas = [];
+            
+            // Cria array de promessas para verificar cada imagem
+            for (let i = 1; i <= TOTAL_IMAGENS; i++) {
+                promessas.push(verificarImagem(`${BASE_URL}${i}.jpg`));
+            }
+            
+            // Aguarda todas as verificações
+            const resultados = await Promise.all(promessas);
+            
+            // Limpa o container
+            container.innerHTML = '';
+            
+            // Adiciona apenas as imagens que existem
+            resultados.forEach((existe, index) => {
+                if (existe) {
+                    const numImagem = index + 1;
+                    const img = document.createElement("img");
+                    img.className = "slides";
+                    img.src = `${BASE_URL}${numImagem}.jpg`;
+                    img.alt = `Slide ${numImagem}`;
+                    img.setAttribute('data-numero', numImagem);
+                    container.appendChild(img);
+                    imagensExistentes.push(numImagem);
+                }
+            });
+            
+            // Atualiza o contador
+            atualizarContador();
+            
+            // Se encontrou imagens, inicia o slideshow
+            if (imagensExistentes.length > 0) {
+                mostrarSlide(0);
+                startSlideShow();
+            } else {
+                container.innerHTML = '<div style="text-align:center;padding:50px;color:#ff3f81;">Nenhuma imagem encontrada na pasta</div>';
+            }
+        }
+        
+        // Função para atualizar o contador de slides
+        function atualizarContador() {
+            const contador = document.getElementById("contador-slides");
+            if (imagensExistentes.length > 0) {
+                contador.textContent = `${imagensExistentes.length} imagens carregadas de ${TOTAL_IMAGENS} verificadas`;
+            }
+        }
+        
+        // Funções do slideshow
         function mostrarSlide(index) {
-            // Esconde todos os slides
+            const slides = document.getElementsByClassName("slides");
             for (let i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
             }
-            
-            // Mostra o slide atual
-            if(slides.length > 0) {
+            if (slides.length > 0) {
                 slides[index].style.display = "block";
             }
         }
         
         function proximoSlide() {
-            slideIndex = (slideIndex + 1) % slides.length;
-            mostrarSlide(slideIndex);
+            const slides = document.getElementsByClassName("slides");
+            if (slides.length > 0) {
+                slideIndex = (slideIndex + 1) % slides.length;
+                mostrarSlide(slideIndex);
+            }
         }
         
         function voltarSlide() {
-            slideIndex = (slideIndex - 1 + slides.length) % slides.length;
-            mostrarSlide(slideIndex);
+            const slides = document.getElementsByClassName("slides");
+            if (slides.length > 0) {
+                slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+                mostrarSlide(slideIndex);
+            }
         }
         
         function startSlideShow() {
@@ -496,34 +518,31 @@
             const pauseBtn = document.getElementById("pauseBtn");
             
             if (isPaused) {
-                // Se estava pausado, despausa
                 startSlideShow();
                 pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar Slideshow';
                 isPaused = false;
             } else {
-                // Se estava rodando, pausa
                 stopSlideShow();
                 pauseBtn.innerHTML = '<i class="fas fa-play"></i> Continuar Slideshow';
                 isPaused = true;
             }
         }
         
-        // Inicia o slideshow
-        if(slides.length > 0) {
-            mostrarSlide(slideIndex);
-            startSlideShow();
-        }
-        
         // Função para mostrar o overlay de carregamento
         function showLoading() {
             const overlay = document.getElementById("loading-overlay");
-            if(overlay) {
+            if (overlay) {
                 overlay.style.display = "flex";
                 setTimeout(() => {
                     overlay.style.display = "none";
                 }, 2000);
             }
         }
+        
+        // Inicia o carregamento das imagens quando a página carregar
+        window.onload = function() {
+            carregarImagens();
+        };
     </script>
 </body>
 </html>
