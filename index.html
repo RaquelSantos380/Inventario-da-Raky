@@ -352,6 +352,13 @@
             font-weight: bold;
             margin-top: 5px;
         }
+        .search-status {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -385,6 +392,7 @@
 
         <!-- Contador de slides -->
         <div class="contador-slides" id="contador-slides"></div>
+        <div class="search-status" id="search-status"></div>
 
         <!-- Botão de pause/play -->
         <button class="pause-btn" id="pauseBtn" onclick="togglePause()">
@@ -401,10 +409,11 @@
 
     <script>
         // ============================================
-        // CONFIGURAÇÃO: Altere este número conforme a
-        // quantidade de imagens JPG na sua pasta
+        // CÓDIGO TOTALMENTE FLEXÍVEL
+        // Detecta automaticamente quantas imagens existem
+        // Basta colocar as imagens como 1.jpg, 2.jpg, 3.jpg...
+        // O código encontra sozinho o limite máximo
         // ============================================
-        const TOTAL_IMAGENS = 63; // <-- MUDE AQUI para o número total de JPGs
         
         const BASE_URL = "https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/";
         const container = document.getElementById("slideshow-container");
@@ -414,6 +423,8 @@
         let slideIndex = 0;
         let slideInterval;
         let isPaused = false;
+        let estaBuscando = false;
+        let limiteMaximo = 1000; // Vai tentar até 1000 (pode aumentar se necessário)
         
         // Função para verificar se uma imagem existe
         function verificarImagem(url) {
@@ -422,68 +433,112 @@
                 img.onload = () => resolve(true);
                 img.onerror = () => resolve(false);
                 img.src = url;
+                // Timeout para não travar se demorar muito
+                setTimeout(() => resolve(false), 3000);
             });
         }
         
-        // Função para carregar todas as imagens
-        async function carregarImagens() {
-            container.innerHTML = '<div style="text-align:center;padding:50px;color:#ff66b2;">Carregando imagens... <i class="fas fa-spinner fa-spin"></i></div>';
+        // Função para encontrar quantas imagens existem (busca até achar 5 falhas consecutivas)
+        async function encontrarTotalImagens() {
+            const statusDiv = document.getElementById("search-status");
+            statusDiv.innerHTML = '<i class="fas fa-search"></i> Detectando quantidade de imagens...';
             
-            const promessas = [];
+            let imagensEncontradas = 0;
+            let falhasConsecutivas = 0;
+            let numeroAtual = 1;
             
-            // Cria array de promessas para verificar cada imagem
-            for (let i = 1; i <= TOTAL_IMAGENS; i++) {
-                promessas.push(verificarImagem(`${BASE_URL}${i}.jpg`));
+            // Vai procurar até encontrar 5 falhas consecutivas
+            while (falhasConsecutivas < 5 && numeroAtual <= limiteMaximo) {
+                const url = `${BASE_URL}${numeroAtual}.jpg`;
+                const existe = await verificarImagem(url);
+                
+                if (existe) {
+                    imagensEncontradas++;
+                    falhasConsecutivas = 0;
+                    statusDiv.innerHTML = `Detectando... Encontrada imagem ${numeroAtual}.jpg <i class="fas fa-spinner fa-spin"></i>`;
+                } else {
+                    falhasConsecutivas++;
+                    statusDiv.innerHTML = `Verificando... Imagem ${numeroAtual}.jpg não encontrada (${falhasConsecutivas}/5 falhas)`;
+                }
+                
+                numeroAtual++;
             }
             
-            // Aguarda todas as verificações
-            const resultados = await Promise.all(promessas);
+            statusDiv.innerHTML = `✅ Detecção concluída! Encontradas ${imagensEncontradas} imagens.`;
+            return imagensEncontradas;
+        }
+        
+        // Função para carregar todas as imagens dinamicamente
+        async function carregarImagens() {
+            container.innerHTML = '<div style="text-align:center;padding:50px;color:#ff66b2;"><i class="fas fa-spinner fa-spin"></i> Detectando e carregando imagens...</div>';
+            
+            // Primeiro, encontra quantas imagens existem
+            const totalImagens = await encontrarTotalImagens();
+            
+            if (totalImagens === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:50px;color:#ff3f81;">❌ Nenhuma imagem encontrada na pasta<br><small>Verifique se as imagens estão nomeadas como 1.jpg, 2.jpg, etc.</small></div>';
+                document.getElementById("contador-slides").textContent = "0 imagens encontradas";
+                return;
+            }
             
             // Limpa o container
             container.innerHTML = '';
+            imagensExistentes = [];
             
-            // Adiciona apenas as imagens que existem
-            resultados.forEach((existe, index) => {
-                if (existe) {
-                    const numImagem = index + 1;
-                    const img = document.createElement("img");
-                    img.className = "slides";
-                    img.src = `${BASE_URL}${numImagem}.jpg`;
-                    img.alt = `Slide ${numImagem}`;
-                    img.setAttribute('data-numero', numImagem);
-                    container.appendChild(img);
-                    imagensExistentes.push(numImagem);
+            // Carrega todas as imagens encontradas
+            const statusDiv = document.getElementById("search-status");
+            
+            for (let i = 1; i <= totalImagens; i++) {
+                const img = document.createElement("img");
+                img.className = "slides";
+                img.src = `${BASE_URL}${i}.jpg`;
+                img.alt = `Slide ${i}`;
+                img.setAttribute('data-numero', i);
+                container.appendChild(img);
+                imagensExistentes.push(i);
+                
+                if (i % 10 === 0 || i === totalImagens) {
+                    statusDiv.innerHTML = `📸 Carregando imagens... ${i}/${totalImagens}`;
                 }
-            });
+            }
             
             // Atualiza o contador
-            atualizarContador();
+            const contador = document.getElementById("contador-slides");
+            contador.textContent = `📷 ${imagensExistentes.length} imagens encontradas e carregadas`;
             
-            // Se encontrou imagens, inicia o slideshow
+            // Mostra a primeira imagem
             if (imagensExistentes.length > 0) {
                 mostrarSlide(0);
                 startSlideShow();
-            } else {
-                container.innerHTML = '<div style="text-align:center;padding:50px;color:#ff3f81;">Nenhuma imagem encontrada na pasta</div>';
             }
-        }
-        
-        // Função para atualizar o contador de slides
-        function atualizarContador() {
-            const contador = document.getElementById("contador-slides");
-            if (imagensExistentes.length > 0) {
-                contador.textContent = `${imagensExistentes.length} imagens carregadas de ${TOTAL_IMAGENS} verificadas`;
-            }
+            
+            // Remove o texto de busca após 3 segundos
+            setTimeout(() => {
+                if (document.getElementById("search-status").innerHTML.includes("carregadas")) {
+                    document.getElementById("search-status").innerHTML = "";
+                }
+            }, 3000);
         }
         
         // Funções do slideshow
         function mostrarSlide(index) {
             const slides = document.getElementsByClassName("slides");
+            if (slides.length === 0) return;
+            
+            // Esconde todos
             for (let i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
             }
-            if (slides.length > 0) {
+            
+            // Mostra o slide atual (com validação)
+            if (index >= 0 && index < slides.length) {
                 slides[index].style.display = "block";
+                
+                // Atualiza um mini indicador opcional
+                const contador = document.getElementById("contador-slides");
+                if (contador && !contador.textContent.includes("encontradas")) {
+                    contador.innerHTML = `📸 Slide ${index + 1} de ${slides.length}`;
+                }
             }
         }
         
@@ -504,14 +559,17 @@
         }
         
         function startSlideShow() {
-            if (!slideInterval) {
-                slideInterval = setInterval(proximoSlide, 3000);
+            if (slideInterval) {
+                clearInterval(slideInterval);
             }
+            slideInterval = setInterval(proximoSlide, 3000);
         }
         
         function stopSlideShow() {
-            clearInterval(slideInterval);
-            slideInterval = null;
+            if (slideInterval) {
+                clearInterval(slideInterval);
+                slideInterval = null;
+            }
         }
         
         function togglePause() {
@@ -536,6 +594,18 @@
                 setTimeout(() => {
                     overlay.style.display = "none";
                 }, 2000);
+            }
+        }
+        
+        // Função para atualizar manualmente (caso queira recarregar)
+        function recarregarSlideshow() {
+            stopSlideShow();
+            carregarImagens();
+            isPaused = false;
+            slideIndex = 0;
+            const pauseBtn = document.getElementById("pauseBtn");
+            if (pauseBtn) {
+                pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar Slideshow';
             }
         }
         
