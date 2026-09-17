@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Inventário Da Raky" />
-    <meta property="og:description" content="Confira nosso inventário completo de pets no Adopt Me!" />
-    <meta property="og:url" content="https://www.seusite.com" />
-    <meta property="og:image" content="Raky.jpg">
+    <meta name="og:title" content="Inventário Da Raky" />
+    <meta name="og:description" content="Confira nosso inventário completo de pets no Adopt Me!" />
     <meta name="theme-color" content="#ffccff" />
     <title>Inventário Da Raky</title>
     <link rel="icon" type="image/png" href="Raky.jpg">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -20,225 +17,268 @@
         }
 
         html, body {
-            height: 100%;
-            overflow: hidden; /* evita barras de rolagem indesejadas */
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* ===== CARROSSEL EM TELA CHEIA ===== */
-        .carousel {
-            position: relative;
-            width: 100vw;
-            height: 100vh; /* ocupa a tela toda */
-            overflow: hidden;
-        }
-
-        .slide {
-            position: absolute;
-            inset: 0; /* top/right/bottom/left = 0 */
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-        }
-
-        .slide.active {
-            opacity: 1;
-            z-index: 1;
-        }
-
-        /* Imagem cobrindo toda a tela, sem distorcer */
-        .slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;       /* cobre a tela inteira mantendo proporção */
-            object-position: center; /* centraliza o foco */
-            display: block;
-            image-rendering: -webkit-optimize-contrast; /* melhora nitidez em alguns navegadores */
+            overflow: hidden;
+            background: #000;
+            font-family: Arial, sans-serif;
         }
 
-        /* Legenda/overlay opcional */
-        .slide-caption {
-            position: absolute;
-            bottom: 30px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: #fff;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
-            font-size: 1.4rem;
-            font-weight: 600;
-            z-index: 2;
-            padding: 0 20px;
-        }
-
-        /* Botões de navegação */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 204, 255, 0.7);
-            border: none;
-            color: #333;
-            font-size: 2rem;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 3;
+        /* ===== SLIDESHOW EM TELA CHEIA ===== */
+        .slideshow-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s;
-            user-select: none;
+            background: #000;
         }
 
-        .nav-btn:hover {
-            background: rgba(255, 204, 255, 1);
+        .slides {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
         }
 
-        .prev { left: 20px; }
-        .next { right: 20px; }
-
-        /* Indicadores (bolinhas) */
-        .dots {
+        /* Setas */
+        .seta {
             position: absolute;
-            bottom: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: #ff3f81;
+            cursor: pointer;
+            user-select: none;
+            padding: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s ease;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .seta:hover {
+            transform: translateY(-50%) scale(1.1);
+            background-color: white;
+        }
+
+        .seta-esquerda {
+            left: 20px;
+        }
+
+        .seta-direita {
+            right: 20px;
+        }
+
+        /* Contador */
+        .contador-slides {
+            position: absolute;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 3;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 10;
+            text-align: center;
         }
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
+        /* Status de carregamento */
+        .search-status {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 0.8rem;
+            font-style: italic;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 6px 14px;
+            border-radius: 20px;
         }
 
-        .dot.active {
-            background: #ffccff;
-            transform: scale(1.3);
-        }
-
-        /* Responsivo: em telas pequenas ajusta tamanho dos botões */
         @media (max-width: 600px) {
-            .nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.5rem;
+            .seta {
+                font-size: 28px;
+                width: 42px;
+                height: 42px;
             }
-            .slide-caption {
-                font-size: 1rem;
-                bottom: 20px;
-            }
-            .dots {
-                bottom: 60px;
-            }
+            .seta-esquerda { left: 10px; }
+            .seta-direita { right: 10px; }
+            .contador-slides { font-size: 0.75rem; padding: 6px 12px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="carousel" id="carousel">
-        <div class="slide active">
-            <img src="Raky.jpg" alt="Slide 1">
-            <div class="slide-caption">Inventário Da Raky</div>
-        </div>
-        <div class="slide">
-            <img src="imagem2.jpg" alt="Slide 2">
-            <div class="slide-caption">Pets Raros</div>
-        </div>
-        <div class="slide">
-            <img src="imagem3.jpg" alt="Slide 3">
-            <div class="slide-caption">Coleção Completa</div>
-        </div>
-        <!-- Adicione mais slides conforme necessário -->
-
-        <button class="nav-btn prev" onclick="prevSlide()">&#10094;</button>
-        <button class="nav-btn next" onclick="nextSlide()">&#10095;</button>
-
-        <div class="dots" id="dots"></div>
+    <div class="slideshow-container" id="slideshow-container">
+        <!-- As imagens serão inseridas aqui pelo JavaScript -->
     </div>
 
+    <!-- Setas -->
+    <span class="seta seta-esquerda" onclick="voltarSlide()">&#8249;</span>
+    <span class="seta seta-direita" onclick="proximoSlide()">&#8250;</span>
+
+    <!-- Contador -->
+    <div class="contador-slides" id="contador-slides"></div>
+
+    <!-- Status -->
+    <div class="search-status" id="search-status"></div>
+
     <script>
-        const slides = document.querySelectorAll('.slide');
-        const dotsContainer = document.getElementById('dots');
-        let currentIndex = 0;
-        let autoPlayInterval;
+        // ============================================
+        // URL DO REPOSITÓRIO
+        // ============================================
+        const BASE_URL = "https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/";
 
-        // Cria as bolinhas dinamicamente
-        slides.forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        });
+        const container = document.getElementById("slideshow-container");
 
-        const dots = document.querySelectorAll('.dot');
+        let slideIndex = 0;
+        let slideInterval;
+        let limiteMaximo = 1000;
 
-        function updateSlides() {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === currentIndex);
-            });
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
+        function verificarImagem(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+                setTimeout(() => resolve(false), 3000);
             });
         }
 
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % slides.length;
-            updateSlides();
-            resetAutoPlay();
+        async function encontrarTotalImagens() {
+            const statusDiv = document.getElementById("search-status");
+            statusDiv.innerHTML = '<i class="fas fa-search"></i> Detectando imagens...';
+
+            let imagensEncontradas = 0;
+            let falhasConsecutivas = 0;
+            let numeroAtual = 1;
+
+            while (falhasConsecutivas < 5 && numeroAtual <= limiteMaximo) {
+                const url = `${BASE_URL}${numeroAtual}.jpg`;
+                const existe = await verificarImagem(url);
+
+                if (existe) {
+                    imagensEncontradas++;
+                    falhasConsecutivas = 0;
+                    statusDiv.innerHTML = `Detectando... ${numeroAtual}.jpg <i class="fas fa-spinner fa-spin"></i>`;
+                } else {
+                    falhasConsecutivas++;
+                    statusDiv.innerHTML = `Verificando... ${numeroAtual}.jpg (${falhasConsecutivas}/5)`;
+                }
+
+                numeroAtual++;
+            }
+
+            statusDiv.innerHTML = `✅ ${imagensEncontradas} imagens encontradas.`;
+            return imagensEncontradas;
         }
 
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            updateSlides();
-            resetAutoPlay();
+        async function carregarImagens() {
+            const totalImagens = await encontrarTotalImagens();
+
+            if (totalImagens === 0) {
+                container.innerHTML = '<div style="color:#fff;text-align:center;padding:50px;">❌ Nenhuma imagem encontrada.</div>';
+                document.getElementById("contador-slides").textContent = "0 imagens";
+                return;
+            }
+
+            container.innerHTML = '';
+
+            for (let i = 1; i <= totalImagens; i++) {
+                const img = document.createElement("img");
+                img.className = "slides";
+                img.src = `${BASE_URL}${i}.jpg`;
+                img.alt = `Slide ${i}`;
+                container.appendChild(img);
+            }
+
+            document.getElementById("contador-slides").textContent = `📷 ${totalImagens} imagens`;
+
+            mostrarSlide(0);
+            startSlideShow();
+
+            setTimeout(() => {
+                document.getElementById("search-status").innerHTML = "";
+            }, 2500);
         }
 
-        function goToSlide(index) {
-            currentIndex = index;
-            updateSlides();
-            resetAutoPlay();
+        function mostrarSlide(index) {
+            const slides = document.getElementsByClassName("slides");
+            if (slides.length === 0) return;
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            if (index >= 0 && index < slides.length) {
+                slides[index].style.display = "block";
+
+                const contador = document.getElementById("contador-slides");
+                if (contador) {
+                    contador.innerHTML = `📸 Slide ${index + 1} de ${slides.length}`;
+                }
+            }
         }
 
-        function startAutoPlay() {
-            autoPlayInterval = setInterval(nextSlide, 5000); // troca a cada 5s
+        function proximoSlide() {
+            const slides = document.getElementsByClassName("slides");
+            if (slides.length > 0) {
+                slideIndex = (slideIndex + 1) % slides.length;
+                mostrarSlide(slideIndex);
+            }
         }
 
-        function resetAutoPlay() {
-            clearInterval(autoPlayInterval);
-            startAutoPlay();
+        function voltarSlide() {
+            const slides = document.getElementsByClassName("slides");
+            if (slides.length > 0) {
+                slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+                mostrarSlide(slideIndex);
+            }
         }
 
-        // Suporte a swipe (arrastar) em dispositivos móveis
+        function startSlideShow() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideInterval = setInterval(proximoSlide, 3000);
+        }
+
+        // Suporte a swipe (mobile)
         let touchStartX = 0;
         let touchEndX = 0;
-        const carousel = document.getElementById('carousel');
 
-        carousel.addEventListener('touchstart', (e) => {
+        document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
         }, { passive: true });
 
-        carousel.addEventListener('touchend', (e) => {
+        document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50) nextSlide();
-            if (touchEndX - touchStartX > 50) prevSlide();
+            if (touchStartX - touchEndX > 50) proximoSlide();
+            if (touchEndX - touchStartX > 50) voltarSlide();
         }, { passive: true });
 
         // Teclado
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') nextSlide();
-            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') proximoSlide();
+            if (e.key === 'ArrowLeft') voltarSlide();
         });
 
-        startAutoPlay();
+        window.onload = function() {
+            carregarImagens();
+        };
     </script>
-
 </body>
 </html>
