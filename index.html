@@ -10,609 +10,235 @@
     <meta name="theme-color" content="#ffccff" />
     <title>Inventário Da Raky</title>
     <link rel="icon" type="image/png" href="Raky.jpg">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Dancing+Script:wght@700&family=Oswald:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+
     <style>
-        body {
-            background: linear-gradient(135deg, #ffccff, #ff99cc, #ff66b2);
-            font-family: 'Poppins', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            color: #2e2e2e;
-            position: relative;
+            box-sizing: border-box;
         }
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+
+        html, body {
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23f7c6d9" /></svg>');
-            opacity: 0.1;
-            z-index: -1;
+            overflow: hidden; /* evita barras de rolagem indesejadas */
+            font-family: 'Poppins', sans-serif;
         }
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 0;
-            background-color: #ff66b2;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 3px solid #ff3f81;
-        }
-        .header h1 {
-            font-size: 22px;
-            color: white;
-            font-family: 'Dancing Script', cursive;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-        }
-        .container {
-            padding: 90px 15px 15px;
-            max-width: 100%;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+
+        /* ===== CARROSSEL EM TELA CHEIA ===== */
+        .carousel {
             position: relative;
+            width: 100vw;
+            height: 100vh; /* ocupa a tela toda */
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0; /* top/right/bottom/left = 0 */
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
             z-index: 1;
         }
-        .profile-img {
-            display: block;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-            border: 5px solid #FFD700;
-            transition: all 0.3s ease;
-        }
-        .profile-img:hover {
-            transform: rotate(10deg) scale(1.1);
-        }
-        .nick-info {
-            background: linear-gradient(145deg, #ffccff, #ff99cc);
-            padding: 10px 12px;
-            border-radius: 15px;
-            margin: 10px auto;
-            text-align: center;
-            font-weight: bold;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            border: 2px dashed #ff3f81;
-            max-width: 90%;
-            font-size: 14px;
-        }
-        .nick-info span {
-            color: #ff0066;
-            font-size: 1em;
-        }
-        .welcome-text {
-            text-align: center;
-            margin: 10px 0;
-            font-size: 1em;
-            color: #333;
-        }
-        .welcome-text h1 {
-            color: #ff3f81;
-            margin-bottom: 5px;
-            font-size: 22px;
-        }
-        .welcome-text h2 {
-            color: #ff66b2;
-            margin-top: 0;
-            font-size: 1.1em;
-        }
-        .slideshow-container {
-            position: relative;
-            max-width: 100%;
-            height: 250px;
-            margin: 15px auto;
-            overflow: hidden;
-            background-color: #fff7f9;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            border: 3px solid #ff99cc;
-        }
-        .slides {
-            display: none;
+
+        /* Imagem cobrindo toda a tela, sem distorcer */
+        .slide img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            margin: auto;
-            padding: 5px;
+            object-fit: cover;       /* cobre a tela inteira mantendo proporção */
+            object-position: center; /* centraliza o foco */
+            display: block;
+            image-rendering: -webkit-optimize-contrast; /* melhora nitidez em alguns navegadores */
         }
-        .seta {
+
+        /* Legenda/overlay opcional */
+        .slide-caption {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            font-size: 1.4rem;
+            font-weight: 600;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        /* Botões de navegação */
+        .nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 30px;
-            color: #ff3f81;
+            background: rgba(255, 204, 255, 0.7);
+            border: none;
+            color: #333;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             cursor: pointer;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
             user-select: none;
-            padding: 10px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease;
-            width: 40px;
-            height: 40px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 204, 255, 1);
+        }
+
+        .prev { left: 20px; }
+        .next { right: 20px; }
+
+        /* Indicadores (bolinhas) */
+        .dots {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .seta:hover {
-            transform: translateY(-50%) scale(1.1);
-            background-color: white;
-        }
-        .seta-esquerda {
-            left: 10px;
-        }
-        .seta-direita {
-            right: 10px;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #555;
-            font-weight: bold;
-            padding: 10px;
-        }
-        .link-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            margin: 15px 0;
+            z-index: 3;
         }
-        .link-button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
-            background: linear-gradient(145deg, #ffb3d9, #ff99cc);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-            min-height: 90px;
-            border: 2px solid white;
-        }
-        .link-button img {
-            width: 40px;
-            height: 40px;
+
+        .dot {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background-color: #fff;
-            padding: 3px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-            margin-bottom: 10px;
-        }
-        .link-button:hover {
-            background: linear-gradient(145deg, #ff99cc, #ff80b3);
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        .vendedor-pets {
-            background: linear-gradient(145deg, #ff6b6b, #ff3f81);
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 25px;
-            font-family: 'Oswald', sans-serif;
-            font-weight: bold;
-            font-size: 1em;
+            background: rgba(255,255,255,0.5);
             cursor: pointer;
-            text-decoration: none;
-            display: block;
-            margin: 20px auto;
-            text-align: center;
-            box-shadow: 0 7px 20px rgba(255, 0, 102, 0.3);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 2px solid white;
+            transition: background 0.3s, transform 0.3s;
         }
-        .vendedor-pets:hover {
-            background: linear-gradient(145deg, #ff3f81, #ff0066);
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(255, 0, 102, 0.4);
+
+        .dot.active {
+            background: #ffccff;
+            transform: scale(1.3);
         }
-        .valor-botao {
-            font-size: 18px;
-            font-weight: bold;
-            padding: 15px 25px;
-            background: linear-gradient(145deg, #f09bae, #e87b94);
-            color: white;
-            border-radius: 25px;
-            text-align: center;
-            margin: 20px auto;
-            display: block;
-            text-decoration: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            border: 2px solid white;
-        }
-        .valor-botao:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            display: none;
-        }
-        .loading-text {
-            font-size: 20px;
-            color: #ff66b2;
-            font-weight: bold;
-        }
-        .ver-mais {
-            text-align: center;
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-        .ver-mais a {
-            color: #ff3f81;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.2s ease;
-            font-size: 1rem;
-            padding: 6px 12px;
-            border-radius: 15px;
-            background: rgba(255,255,255,0.7);
-        }
-        .ver-mais a:hover {
-            text-decoration: underline;
-            color: #ff0066;
-            background: rgba(255,255,255,0.9);
-        }
-        .pause-btn {
-            display: block;
-            margin: 10px auto;
-            padding: 8px 15px;
-            background: linear-gradient(145deg, #ff3f81, #ff0066);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            border: 2px solid white;
-            font-size: 0.9rem;
-        }
-        .pause-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-        @media (max-width: 400px) {
-            .header h1 {
-                font-size: 18px;
+
+        /* Responsivo: em telas pequenas ajusta tamanho dos botões */
+        @media (max-width: 600px) {
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
             }
-            .slideshow-container {
-                height: 200px;
+            .slide-caption {
+                font-size: 1rem;
+                bottom: 20px;
             }
-            .seta {
-                font-size: 25px;
-                padding: 8px;
-                width: 35px;
-                height: 35px;
+            .dots {
+                bottom: 60px;
             }
-            .link-button {
-                min-height: 80px;
-                font-size: 0.8rem;
-            }
-            .vendedor-pets {
-                font-size: 0.9rem;
-            }
-            .valor-botao {
-                font-size: 16px;
-            }
-            .nick-info {
-                font-size: 12px;
-            }
-        }
-        .pix-info {
-            background: linear-gradient(145deg, #e6f7ff, #b3e0ff);
-            color: #0066cc;
-            padding: 8px 10px;
-            border-radius: 12px;
-            margin: 8px auto;
-            text-align: center;
-            font-weight: bold;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            border: 2px dashed #0066cc;
-            max-width: 90%;
-            font-size: 13px;
-        }
-        .contador-slides {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #ff3f81;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        .search-status {
-            text-align: center;
-            font-size: 0.75rem;
-            color: #888;
-            margin-top: 5px;
-            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Inventário Da Raky</h1>
-    </div>
 
-    <div class="container">
-        <img src="Raky.jpg" alt="Foto de Perfil" class="profile-img">
-        
-        <div class="welcome-text">
-            <h2>Confira nossos pets disponíveis</h2>
+    <div class="carousel" id="carousel">
+        <div class="slide active">
+            <img src="Raky.jpg" alt="Slide 1">
+            <div class="slide-caption">Inventário Da Raky</div>
         </div>
-
-        <div class="pix-info">
-            Chave PIX: raquelgata780@gmail.com
+        <div class="slide">
+            <img src="imagem2.jpg" alt="Slide 2">
+            <div class="slide-caption">Pets Raros</div>
         </div>
-        
-        <div class="nick-info">
-            Entre pelo join usando o nick: <span>SurtadaOliver</span>
+        <div class="slide">
+            <img src="imagem3.jpg" alt="Slide 3">
+            <div class="slide-caption">Coleção Completa</div>
         </div>
+        <!-- Adicione mais slides conforme necessário -->
 
-        <!-- Slideshow Container - Imagens geradas dinamicamente -->
-        <div class="slideshow-container" id="slideshow-container">
-            <!-- As imagens serão inseridas aqui pelo JavaScript -->
-        </div>
+        <button class="nav-btn prev" onclick="prevSlide()">&#10094;</button>
+        <button class="nav-btn next" onclick="nextSlide()">&#10095;</button>
 
-        <!-- Setas de navegação -->
-        <span class="seta seta-esquerda" onclick="voltarSlide()">&#8249;</span>
-        <span class="seta seta-direita" onclick="proximoSlide()">&#8250;</span>
-
-        <!-- Contador de slides -->
-        <div class="contador-slides" id="contador-slides"></div>
-        <div class="search-status" id="search-status"></div>
-
-        <!-- Botão de pause/play -->
-        <button class="pause-btn" id="pauseBtn" onclick="togglePause()">
-            <i class="fas fa-pause"></i> Pausar Slideshow
-        </button>
-        
-        <div class="footer" id="rodape">
-        </div>
-    </div>
-
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-text">Direcionando você à página...</div>
+        <div class="dots" id="dots"></div>
     </div>
 
     <script>
-        // ============================================
-        // CÓDIGO TOTALMENTE FLEXÍVEL
-        // Detecta automaticamente quantas imagens existem
-        // Basta colocar as imagens como 1.jpg, 2.jpg, 3.jpg...
-        // O código encontra sozinho o limite máximo
-        // ============================================
-        
-        const BASE_URL = "https://raw.githubusercontent.com/RaquelSantos380/Seja-Bem-vindo-A-LojinhaDaRaky/main/minhas%20imagens/";
-        const container = document.getElementById("slideshow-container");
-        
-        // Array para armazenar apenas as imagens que existem
-        let imagensExistentes = [];
-        let slideIndex = 0;
-        let slideInterval;
-        let isPaused = false;
-        let estaBuscando = false;
-        let limiteMaximo = 1000; // Vai tentar até 1000 (pode aumentar se necessário)
-        
-        // Função para verificar se uma imagem existe
-        function verificarImagem(url) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => resolve(true);
-                img.onerror = () => resolve(false);
-                img.src = url;
-                // Timeout para não travar se demorar muito
-                setTimeout(() => resolve(false), 3000);
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dots');
+        let currentIndex = 0;
+        let autoPlayInterval;
+
+        // Cria as bolinhas dinamicamente
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlides() {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentIndex);
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
             });
         }
-        
-        // Função para encontrar quantas imagens existem (busca até achar 5 falhas consecutivas)
-        async function encontrarTotalImagens() {
-            const statusDiv = document.getElementById("search-status");
-            statusDiv.innerHTML = '<i class="fas fa-search"></i> Detectando quantidade de imagens...';
-            
-            let imagensEncontradas = 0;
-            let falhasConsecutivas = 0;
-            let numeroAtual = 1;
-            
-            // Vai procurar até encontrar 5 falhas consecutivas
-            while (falhasConsecutivas < 5 && numeroAtual <= limiteMaximo) {
-                const url = `${BASE_URL}${numeroAtual}.jpg`;
-                const existe = await verificarImagem(url);
-                
-                if (existe) {
-                    imagensEncontradas++;
-                    falhasConsecutivas = 0;
-                    statusDiv.innerHTML = `Detectando... Encontrada imagem ${numeroAtual}.jpg <i class="fas fa-spinner fa-spin"></i>`;
-                } else {
-                    falhasConsecutivas++;
-                    statusDiv.innerHTML = `Verificando... Imagem ${numeroAtual}.jpg não encontrada (${falhasConsecutivas}/5 falhas)`;
-                }
-                
-                numeroAtual++;
-            }
-            
-            statusDiv.innerHTML = `✅ Detecção concluída! Encontradas ${imagensEncontradas} imagens.`;
-            return imagensEncontradas;
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlides();
+            resetAutoPlay();
         }
-        
-        // Função para carregar todas as imagens dinamicamente
-        async function carregarImagens() {
-            container.innerHTML = '<div style="text-align:center;padding:50px;color:#ff66b2;"><i class="fas fa-spinner fa-spin"></i> Detectando e carregando imagens...</div>';
-            
-            // Primeiro, encontra quantas imagens existem
-            const totalImagens = await encontrarTotalImagens();
-            
-            if (totalImagens === 0) {
-                container.innerHTML = '<div style="text-align:center;padding:50px;color:#ff3f81;">❌ Nenhuma imagem encontrada na pasta<br><small>Verifique se as imagens estão nomeadas como 1.jpg, 2.jpg, etc.</small></div>';
-                document.getElementById("contador-slides").textContent = "0 imagens encontradas";
-                return;
-            }
-            
-            // Limpa o container
-            container.innerHTML = '';
-            imagensExistentes = [];
-            
-            // Carrega todas as imagens encontradas
-            const statusDiv = document.getElementById("search-status");
-            
-            for (let i = 1; i <= totalImagens; i++) {
-                const img = document.createElement("img");
-                img.className = "slides";
-                img.src = `${BASE_URL}${i}.jpg`;
-                img.alt = `Slide ${i}`;
-                img.setAttribute('data-numero', i);
-                container.appendChild(img);
-                imagensExistentes.push(i);
-                
-                if (i % 10 === 0 || i === totalImagens) {
-                    statusDiv.innerHTML = `📸 Carregando imagens... ${i}/${totalImagens}`;
-                }
-            }
-            
-            // Atualiza o contador
-            const contador = document.getElementById("contador-slides");
-            contador.textContent = `📷 ${imagensExistentes.length} imagens encontradas e carregadas`;
-            
-            // Mostra a primeira imagem
-            if (imagensExistentes.length > 0) {
-                mostrarSlide(0);
-                startSlideShow();
-            }
-            
-            // Remove o texto de busca após 3 segundos
-            setTimeout(() => {
-                if (document.getElementById("search-status").innerHTML.includes("carregadas")) {
-                    document.getElementById("search-status").innerHTML = "";
-                }
-            }, 3000);
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateSlides();
+            resetAutoPlay();
         }
-        
-        // Funções do slideshow
-        function mostrarSlide(index) {
-            const slides = document.getElementsByClassName("slides");
-            if (slides.length === 0) return;
-            
-            // Esconde todos
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            
-            // Mostra o slide atual (com validação)
-            if (index >= 0 && index < slides.length) {
-                slides[index].style.display = "block";
-                
-                // Atualiza um mini indicador opcional
-                const contador = document.getElementById("contador-slides");
-                if (contador && !contador.textContent.includes("encontradas")) {
-                    contador.innerHTML = `📸 Slide ${index + 1} de ${slides.length}`;
-                }
-            }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlides();
+            resetAutoPlay();
         }
-        
-        function proximoSlide() {
-            const slides = document.getElementsByClassName("slides");
-            if (slides.length > 0) {
-                slideIndex = (slideIndex + 1) % slides.length;
-                mostrarSlide(slideIndex);
-            }
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 5000); // troca a cada 5s
         }
-        
-        function voltarSlide() {
-            const slides = document.getElementsByClassName("slides");
-            if (slides.length > 0) {
-                slideIndex = (slideIndex - 1 + slides.length) % slides.length;
-                mostrarSlide(slideIndex);
-            }
+
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
         }
-        
-        function startSlideShow() {
-            if (slideInterval) {
-                clearInterval(slideInterval);
-            }
-            slideInterval = setInterval(proximoSlide, 3000);
-        }
-        
-        function stopSlideShow() {
-            if (slideInterval) {
-                clearInterval(slideInterval);
-                slideInterval = null;
-            }
-        }
-        
-        function togglePause() {
-            const pauseBtn = document.getElementById("pauseBtn");
-            
-            if (isPaused) {
-                startSlideShow();
-                pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar Slideshow';
-                isPaused = false;
-            } else {
-                stopSlideShow();
-                pauseBtn.innerHTML = '<i class="fas fa-play"></i> Continuar Slideshow';
-                isPaused = true;
-            }
-        }
-        
-        // Função para mostrar o overlay de carregamento
-        function showLoading() {
-            const overlay = document.getElementById("loading-overlay");
-            if (overlay) {
-                overlay.style.display = "flex";
-                setTimeout(() => {
-                    overlay.style.display = "none";
-                }, 2000);
-            }
-        }
-        
-        // Função para atualizar manualmente (caso queira recarregar)
-        function recarregarSlideshow() {
-            stopSlideShow();
-            carregarImagens();
-            isPaused = false;
-            slideIndex = 0;
-            const pauseBtn = document.getElementById("pauseBtn");
-            if (pauseBtn) {
-                pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar Slideshow';
-            }
-        }
-        
-        // Inicia o carregamento das imagens quando a página carregar
-        window.onload = function() {
-            carregarImagens();
-        };
+
+        // Suporte a swipe (arrastar) em dispositivos móveis
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carousel = document.getElementById('carousel');
+
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) nextSlide();
+            if (touchEndX - touchStartX > 50) prevSlide();
+        }, { passive: true });
+
+        // Teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        startAutoPlay();
     </script>
+
 </body>
 </html>
